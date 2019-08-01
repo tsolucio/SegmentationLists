@@ -20,7 +20,7 @@ require_once 'include/utils/utils.php';
 require_once 'modules/CustomView/CustomView.php';
 global $adb;
 $mod_strings = array();
-$slid = vtlib_purify($_REQUEST['src_record']);
+$slid = empty($_REQUEST['src_record']) ? '' : vtlib_purify($_REQUEST['src_record']);
 $current_user = Users::getActiveAdminUser();
 $params = array();
 $query = 'select * from vtiger_subslist mc join vtiger_crmentity crm_mc on crm_mc.crmid=mc.subslistid where crm_mc.deleted=0';
@@ -61,7 +61,7 @@ function loadList($id, $list_type, $list_id_field, $cvid) {
 	}
 }
 
-if ($_REQUEST['gotodv']==1 && !empty($slid)) {
+if (isset($_REQUEST['gotodv']) && $_REQUEST['gotodv']==1 && !empty($slid)) {
 	header('Location: index.php?module=SubsList&action=DetailView&record=' . urlencode($slid));
 }
 ?>

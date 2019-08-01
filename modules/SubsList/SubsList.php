@@ -175,24 +175,22 @@ class SubsList extends CRMEntity {
 
 		$button = '';
 
-		/* To get Leads CustomView -START */
 		require_once 'modules/CustomView/CustomView.php';
 
-		$query = "select * from vtiger_subslist where subslistid={$id}";
-		$res = $adb->query($query);
-		$mailchimp = $adb->getNextRow($res, false);
+		$res = $adb->pquery('select * from vtiger_subslist where subslistid=?', array($id));
+		$rssl = $adb->getNextRow($res, false);
 		switch ($related_module) {
 			case 'Contacts':
-				$autoSync = $mailchimp['contacts_autosync'];
-				$filter = $mailchimp['contacts_filter'];
+				$autoSync = $rssl['contacts_autosync'];
+				$filter = $rssl['contacts_filter'];
 				break;
 			case 'Accounts':
-				$autoSync = $mailchimp['accounts_autosync'];
-				$filter = $mailchimp['accounts_filter'];
+				$autoSync = $rssl['accounts_autosync'];
+				$filter = $rssl['accounts_filter'];
 				break;
 			case 'Leads':
-				$autoSync = $mailchimp['leads_autosync'];
-				$filter = $mailchimp['leads_filter'];
+				$autoSync = $rssl['leads_autosync'];
+				$filter = $rssl['leads_filter'];
 				break;
 			default:
 				$autoSync = false;
@@ -200,19 +198,22 @@ class SubsList extends CRMEntity {
 				break;
 		}
 
-		$lhtml = "<input type='checkbox' id='autosync-{$related_module}' onclick='autoSync{$related_module}.update();'>".getTranslatedString('AutoSync').'&nbsp;&nbsp;';
-		$lhtml .= "<select id='".$related_module."_cv_list' class='small'><option value='None'>-- ".getTranslatedString('Select One')." --</option>";
+		$checked = $autoSync ? 'checked' : '';
+		$disabled = $autoSync ? 'disabled' : '';
+		$disabledcss = $autoSync ? 'background:#ccc;' : '';
+		$lhtml = "<input type='checkbox' id='autosync-{$related_module}' onclick='setupAutoSync(\"{$related_module}\");' $checked>"
+		.getTranslatedString('AutoSync').'&nbsp;&nbsp;';
+		$lhtml .= "<select id='".$related_module."_cv_list' class='small' $disabled><option value='None'>-- ".getTranslatedString('Select One')." --</option>";
 		$oCustomView = new CustomView($related_module);
-		$viewid = $oCustomView->getViewId($related_module);
-		$customviewcombo_html = $oCustomView->getCustomViewCombo($viewid, false);
+		//$viewid = $oCustomView->getViewId($related_module);
+		$customviewcombo_html = $oCustomView->getCustomViewCombo($filter, true);
 		$lhtml .= $customviewcombo_html;
-		$lhtml .= "</select>";
-		/* To get Leads CustomView -END */
+		$lhtml .= '</select>&nbsp;&nbsp';
 
-		$button .= $lhtml."<input title='".getTranslatedString('LBL_LOAD_LIST', 'SubsList')."' class='crmbutton small edit' value='"
+		$button .= $lhtml."<input title='".getTranslatedString('LBL_LOAD_LIST', 'SubsList')."' class='crmbutton small edit' style='$disabledcss' $disabled value='"
 			.getTranslatedString('LBL_LOAD_LIST', 'SubsList')."' type='button' name='button' onclick='loadSubsList(\"$related_module\",\"$id\")'>";
 		$button .= '&nbsp;&nbsp;&nbsp;&nbsp';
-		$button .= "<script>autoSync{$related_module} = AutoSync('{$related_module}', $id, $autoSync, $filter);</script>";
+		$button .= "<span id='autoSync{$related_module}Info' style=\"display:none\">".'{"slid":"'.$id.'","autoSync":"'.$autoSync.'","filter":"'.$filter.'"}</span>';
 
 		if ($actions) {
 			if (is_string($actions)) {
@@ -227,7 +228,7 @@ class SubsList extends CRMEntity {
 						"' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule".
 						"&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test',".
 						"'width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . ' '.
-						getTranslatedString($related_module, $related_module) . "'>&nbsp;";
+						getTranslatedString($related_module, $related_module) . "' style='$disabledcss' $disabled>&nbsp;";
 				}
 			}
 // 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {

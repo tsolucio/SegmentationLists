@@ -27,7 +27,7 @@ function loadSubsList(type, id) {
 	}
 }
 
-function AutoSync( module, id, autoSync, filter ) {
+function AutoSync(module, id, autoSync, filter) {
 	if (!(this instanceof AutoSync)) {
 		return new AutoSync(module, id, autoSync, filter);
 	}
@@ -44,7 +44,8 @@ function AutoSync( module, id, autoSync, filter ) {
 			$filter.prop('disabled', true);
 			$('#tbl_SubsList_' + module + ' .crmbutton').css('background', '#ccc').prop('disabled', true);
 		} else {
-			$filter.prop( 'disabled', false );
+			$filter.prop('disabled', false);
+			$filter.val('None');
 			$('#tbl_SubsList_' + module + ' .crmbutton').css('background', '').prop('disabled', false);
 		}
 	}
@@ -54,7 +55,7 @@ function AutoSync( module, id, autoSync, filter ) {
 			autoSync = $autoSync.prop('checked'),
 			filter = $filter.val();
 
-		if (autoSync && filter == 'None') {
+		if (autoSync && (filter == 'None' || filter==null)) {
 			$autoSync.prop('checked', false);
 			alert('Select a List first');
 		}
@@ -69,7 +70,7 @@ function AutoSync( module, id, autoSync, filter ) {
 				relmodule: module,
 				record: id,
 				autosync: autoSync ? 1 : 0,
-				filter: filter
+				filter: autoSync ? filter : 0
 			}
 		}).done(function () {
 			$indicator.hide();
@@ -77,9 +78,15 @@ function AutoSync( module, id, autoSync, filter ) {
 		});
 	};
 
-	$autoSync.prop('checked', autoSync ? true : false);
-	$filter.val(filter);
-	updateUI();
+	//$autoSync.prop('checked', autoSync ? true : false);
+	//$filter.val(filter);
+	//updateUI();
 
 	return this;
+}
+
+function setupAutoSync(relatedmodule) {
+	var info = document.getElementById('autoSync'+relatedmodule+'Info').innerHTML;
+	info = JSON.parse(info);
+	AutoSync(relatedmodule, info.slid, info.autoSync, info.filter).update();
 }
