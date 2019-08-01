@@ -21,6 +21,8 @@ class SubsList extends CRMEntity {
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
 	public $HasDirectImageField = false;
+	public $moduleIcon = array('library' => 'utility', 'containerClass' => 'slds-icon_container slds-icon-standard-account', 'class' => 'slds-icon', 'icon'=>'filterList');
+
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
@@ -171,8 +173,6 @@ class SubsList extends CRMEntity {
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
-		$singular_modname = 'SINGLE_'.$related_module;
-
 		$button = '';
 
 		/* To get Leads CustomView -START */
@@ -237,9 +237,9 @@ class SubsList extends CRMEntity {
 // 				}
 // 				if (!$racbr || $racbr->hasRelatedListPermissionTo('create',$related_module)) {
 // 					$button .= "<input type='hidden' name='createmode' value='link' />" .
-// 						"<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
+// 						"<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString('SINGLE_'.$related_module) . "' class='crmbutton small create'" .
 // 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-// 						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "'>&nbsp;";
+// 						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString('SINGLE_'.$related_module, $related_module) . "'>&nbsp;";
 // 				}
 // 			}
 		}
@@ -260,8 +260,8 @@ class SubsList extends CRMEntity {
 		// Select Custom Field Table Columns if present
 		if (isset($other->customFieldTable)) {
 			$query .= ', '.$other->customFieldTable[0].'.*';
-			$more_relation .= " INNER JOIN ".$other->customFieldTable[0]." ON ".$other->customFieldTable[0].'.'.$other->customFieldTable[1] .
-				" = $other->table_name.$other->table_index";
+			$more_relation .= " INNER JOIN ".$other->customFieldTable[0]." ON ".$other->customFieldTable[0].'.'.$other->customFieldTable[1]
+				." = $other->table_name.$other->table_index";
 		}
 		if (!empty($other->related_tables)) {
 			foreach ($other->related_tables as $tname => $relmap) {

@@ -16,39 +16,35 @@
 *  Version      : 1.9
 *  Author       : TSolucio
 *************************************************************************************************/
-require_once('include/utils/utils.php');
-require_once('modules/CustomView/CustomView.php');
+require_once 'include/utils/utils.php';
+require_once 'modules/CustomView/CustomView.php';
 global $adb;
 $mod_strings = array();
 $slid = vtlib_purify($_REQUEST['src_record']);
 $current_user = Users::getActiveAdminUser();
 $params = array();
-$query = 'select *
-from vtiger_subslist mc
-join vtiger_crmentity crm_mc on crm_mc.crmid=mc.subslistid
-where crm_mc.deleted=0';
+$query = 'select * from vtiger_subslist mc join vtiger_crmentity crm_mc on crm_mc.crmid=mc.subslistid where crm_mc.deleted=0';
 if (!empty($slid)) {
 	$query .= ' and mc.subslistid=?';
 	$params[] = $slid;
 }
-$res = $adb->pquery($query,$params);
+$res = $adb->pquery($query, $params);
 while ($row = $adb->getNextRow($res, false)) {
-  if ($row['contacts_autosync']) {
-    loadList($row['subslistid'], 'Contacts', 'contactid', $row['contacts_filter']);
-  }
-  if ($row['accounts_autosync']) {
-    loadList($row['subslistid'], 'Accounts', 'accountid', $row['accounts_filter']);
-  }
-  if ($row['leads_autosync']) {
-    loadList($row['subslistid'], 'Leads', 'leadid', $row['leads_filter']);
-  }
+	if ($row['contacts_autosync']) {
+		loadList($row['subslistid'], 'Contacts', 'contactid', $row['contacts_filter']);
+	}
+	if ($row['accounts_autosync']) {
+		loadList($row['subslistid'], 'Accounts', 'accountid', $row['accounts_filter']);
+	}
+	if ($row['leads_autosync']) {
+		loadList($row['subslistid'], 'Leads', 'leadid', $row['leads_filter']);
+	}
 }
 
 function loadList($id, $list_type, $list_id_field, $cvid) {
 	global $adb, $current_user;
 
-	$query = 'delete from vtiger_crmentityrel where crmid=?';
-	$adb->pquery($query,array($id));
+	$adb->pquery('delete from vtiger_crmentityrel where crmid=?', array($id));
 
 	$queryGenerator = new QueryGenerator($list_type, $current_user);
 	if (!empty($cvid)) {
@@ -60,11 +56,12 @@ function loadList($id, $list_type, $list_id_field, $cvid) {
 
 	$rs = $adb->query($listquery);
 
-	while($row=$adb->fetch_array($rs)) {
+	while ($row=$adb->fetch_array($rs)) {
 		$adb->pquery("INSERT INTO vtiger_crmentityrel (crmid,module,relcrmid,relmodule) VALUES(?,'SubsList',?,'$list_type')", array((int)$id, (int)$row[$list_id_field]));
 	}
 }
 
-if ($_REQUEST['gotodv']==1 and !empty($slid))
+if ($_REQUEST['gotodv']==1 && !empty($slid)) {
 	header('Location: index.php?module=SubsList&action=DetailView&record=' . urlencode($slid));
+}
 ?>
