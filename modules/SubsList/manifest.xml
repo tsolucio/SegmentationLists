@@ -1,0 +1,382 @@
+<?xml version='1.0'?>
+<module>
+<name>SubsList</name>
+<label>SubsList</label>
+<parent>Marketing</parent>
+<version>1.0</version>
+<short_description>Module description.</short_description>
+<dependencies>
+<vtiger_version>5.4.0</vtiger_version>
+<vtiger_max_version>5.*</vtiger_max_version>
+</dependencies>
+<license>
+<inline><![CDATA[
+ *************************************************************************************************
+ * Copyright 2019 TSolucio  --  This file is a part of vtMktDashboard.
+ * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+ * Vizsage Public License (the "License"). You may not use this file except in compliance with the
+ * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+ * and share improvements. However, for proper details please read the full License, available at
+ * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+ * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+ * applicable law or agreed to in writing, any software distributed under the License is distributed
+ * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the
+ * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+ *************************************************************************************************
+ *  Module       : SubsList
+ *  Version      : 1.9
+ *  Author       : TSolucio
+ *************************************************************************************************
+]]></inline>
+</license>
+<tables>
+<table>
+<name>vtiger_subslist</name>
+<sql><![CDATA[CREATE TABLE `vtiger_subslist` (
+  `subslistid` int(11) NOT NULL DEFAULT '0',
+  `subslistno` varchar(56) DEFAULT NULL,
+  `subslistname` varchar(56) DEFAULT NULL,
+  `subslisttype` varchar(56) DEFAULT NULL,
+  `subsliststatus` varchar(56) DEFAULT NULL,
+  `lastsynchronization` date DEFAULT NULL,
+  `contacts_autosync` tinyint(1) NOT NULL DEFAULT '0',
+  `contacts_filter` int(11) NOT NULL DEFAULT '0',
+  `accounts_autosync` tinyint(1) NOT NULL DEFAULT '0',
+  `accounts_filter` int(11) NOT NULL DEFAULT '0',
+  `leads_autosync` tinyint(1) NOT NULL DEFAULT '0',
+  `leads_filter` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`subslistid`),
+  CONSTRAINT `fk_1_vtiger_subslist` FOREIGN KEY (`subslistid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;]]></sql>
+</table>
+<table>
+<name>vtiger_subslistcf</name>
+<sql><![CDATA[CREATE TABLE `vtiger_subslistcf` (
+  `subslistid` int(11) NOT NULL,
+  PRIMARY KEY (`subslistid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+</table>
+</tables>
+<blocks>
+<block>
+<label>LBL_SubsList_INFORMATION</label>
+<fields>
+<field>
+<fieldname>subslistname</fieldname>
+<uitype>2</uitype>
+<columnname>subslistname</columnname>
+<tablename>vtiger_subslist</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>subslistname</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<entityidentifier>
+<entityidfield></entityidfield>
+<entityidcolumn></entityidcolumn>
+</entityidentifier>
+</field>
+<field>
+<fieldname>subslisttype</fieldname>
+<uitype>15</uitype>
+<columnname>subslisttype</columnname>
+<tablename>vtiger_subslist</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>subslisttype</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<picklistvalues>
+<picklistvalue>--None--</picklistvalue>
+<picklistvalue>Marketing</picklistvalue>
+<picklistvalue>Newsletter</picklistvalue>
+<picklistvalue>Others</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>subsliststatus</fieldname>
+<uitype>15</uitype>
+<columnname>subsliststatus</columnname>
+<tablename>vtiger_subslist</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>subsliststatus</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>3</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<picklistvalues>
+<picklistvalue>--None--</picklistvalue>
+<picklistvalue>Planning</picklistvalue>
+<picklistvalue>Active</picklistvalue>
+<picklistvalue>Inactive</picklistvalue>
+<picklistvalue>Completed</picklistvalue>
+<picklistvalue>Cancelled</picklistvalue>
+</picklistvalues>
+</field>
+</fields>
+</block>
+<block>
+<label>LBL_ADDINFO_INFORMATION</label>
+<fields>
+<field>
+<fieldname>subslistno</fieldname>
+<uitype>4</uitype>
+<columnname>subslistno</columnname>
+<tablename>vtiger_subslist</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>subslistno</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<entityidentifier>
+<entityidfield>subslistid</entityidfield>
+<entityidcolumn>subslistid</entityidcolumn>
+</entityidentifier>
+</field>
+<field>
+<fieldname>assigned_user_id</fieldname>
+<uitype>53</uitype>
+<columnname>smownerid</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Assigned To</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence>1</quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>created_user_id</fieldname>
+<uitype>52</uitype>
+<columnname>smcreatorid</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Created By</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<selected>0</selected>
+<sequence>3</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence>1</quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>0</masseditable>
+</field>
+<field>
+<fieldname>createdtime</fieldname>
+<uitype>70</uitype>
+<columnname>createdtime</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Created Time</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>4</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>DT~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>0</masseditable>
+</field>
+<field>
+<fieldname>modifiedtime</fieldname>
+<uitype>70</uitype>
+<columnname>modifiedtime</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Modified Time</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>5</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>DT~O</typeofdata>
+<quickcreate>3</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>0</masseditable>
+</field>
+</fields>
+</block>
+<block>
+<label>LBL_CUSTOM_INFORMATION</label>
+</block>
+<block>
+<label>LBL_DESCRIPTION_INFORMATION</label>
+<fields>
+<field>
+<fieldname>description</fieldname>
+<uitype>19</uitype>
+<columnname>description</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Description</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+</fields>
+</block>
+</blocks>
+<customviews>
+<customview>
+<viewname>All</viewname>
+<setdefault>true</setdefault>
+<setmetrics>false</setmetrics>
+<fields>
+<field>
+<fieldname>subslistno</fieldname>
+<columnindex>0</columnindex>
+</field>
+<field>
+<fieldname>subslistname</fieldname>
+<columnindex>1</columnindex>
+</field>
+<field>
+<fieldname>subslisttype</fieldname>
+<columnindex>2</columnindex>
+</field>
+<field>
+<fieldname>subsliststatus</fieldname>
+<columnindex>3</columnindex>
+</field>
+<field>
+<fieldname>assigned_user_id</fieldname>
+<columnindex>4</columnindex>
+</field>
+</fields>
+</customview>
+</customviews>
+<sharingaccess>
+<default>public</default>
+</sharingaccess>
+<actions>
+<action>
+<name><![CDATA[Merge]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[Import]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[Export]]></name>
+<status>enabled</status>
+</action>
+</actions>
+<relatedlists>
+<relatedlist>
+<function>get_related_list</function>
+<label>Contacts</label>
+<sequence>1</sequence>
+<presence>0</presence>
+<actions>
+<action>SELECT</action>
+</actions>
+<relatedmodule>Contacts</relatedmodule>
+</relatedlist>
+<relatedlist>
+<function>get_related_list</function>
+<label>Accounts</label>
+<sequence>2</sequence>
+<presence>0</presence>
+<actions>
+<action>SELECT</action>
+</actions>
+<relatedmodule>Accounts</relatedmodule>
+</relatedlist>
+<relatedlist>
+<function>get_related_list</function>
+<label>Leads</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action>SELECT</action>
+</actions>
+<relatedmodule>Leads</relatedmodule>
+</relatedlist>
+</relatedlists>
+<events>
+</events>
+<customlinks>
+<customlink>
+<linktype>DETAILVIEWBASIC</linktype>
+<linklabel>Synchronize with Filters</linklabel>
+<linkurl><![CDATA[index.php?module=SubsList&action=SubsListAjax&file=SubsListSync&gotodv=1&src_record=$RECORD$]]></linkurl>
+<linkicon><![CDATA[]]></linkicon>
+<sequence>0</sequence>
+</customlink>
+</customlinks>
+<crons>
+<cron>
+<name>syncSubsList</name>
+<frequency>43200</frequency>
+<status>0</status>
+<handler>modules/SubsList/SubsListSync.php</handler>
+<sequence>7</sequence>
+<description>Recommended frequency for syncing is 12 hours</description>
+</cron>
+</crons>
+</module>
