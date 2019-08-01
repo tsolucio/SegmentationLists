@@ -35,10 +35,10 @@
 <name>vtiger_subslist</name>
 <sql><![CDATA[CREATE TABLE `vtiger_subslist` (
   `subslistid` int(11) NOT NULL DEFAULT '0',
-  `subslistno` varchar(56) DEFAULT NULL,
-  `subslistname` varchar(156) DEFAULT NULL,
-  `subslisttype` varchar(56) DEFAULT NULL,
-  `subsliststatus` varchar(56) DEFAULT NULL,
+  `subslistno` varchar(156) DEFAULT NULL,
+  `subslistname` varchar(256) DEFAULT NULL,
+  `subslisttype` varchar(156) DEFAULT NULL,
+  `subsliststatus` varchar(156) DEFAULT NULL,
   `lastsynchronization` date DEFAULT NULL,
   `contacts_autosync` tinyint(1) NOT NULL DEFAULT '0',
   `contacts_filter` int(11) NOT NULL DEFAULT '0',
