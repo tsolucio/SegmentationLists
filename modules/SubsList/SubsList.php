@@ -287,10 +287,6 @@ class SubsList extends CRMEntity {
 		$query .= ' LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= " WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
 
-		if (GlobalVariable::getVariable('Debug_RelatedList_Query', '0') == '1') {
-			echo '<br>'.$query.'<br>';
-		}
-
 		$return_value = GetRelatedList($currentModule, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null) {
