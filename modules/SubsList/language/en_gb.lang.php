@@ -32,5 +32,7 @@ $mod_strings = array(
 	'Add Relation' => 'Add relation',
 	'Delete Relation' => 'Delete relation',
 	'Delete All Relation' => 'Delete from all relations',
+	'syncSubsList' => 'Synchronize Segmentation List Filters',
+	'Recommended frequency for syncing is 12 hours' => 'Recommended frequency for syncing is 12 hours',
 );
 ?>
