@@ -6,32 +6,35 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ *  Contributor: Ranieri Slemer - Brazil - 26/09/2019 - Translate new terms
  ************************************************************************************/
 
 $mod_strings = array(
-	'ModuleName' => 'Lista de Segmentação',
-	'SubsList' => 'Lista de Segmentação',
-	'SINGLE_SubsList' => 'Lista de Segmentação',
-	'SubsList ID' => 'ID Lista de Segmentação',
+	'ModuleName' => 'Lista de segmentação',
+	'SubsList' => 'Lista de segmentação',
+	'SINGLE_SubsList' => 'Lista de segmentação',
+	'SubsList ID' => 'ID Lista de segmentação',
 
 	'LBL_CUSTOM_INFORMATION' => 'Informação personalizada',
-	'LBL_SubsList_INFORMATION' => 'Informação Lista de Segmentação',
+	'LBL_SubsList_INFORMATION' => 'Informação lista de segmentação',
 	'Description Information' => 'Descrição',
+	'LBL_ADDINFO_INFORMATION' => 'Informação adicional',
+	'LBL_DESCRIPTION_INFORMATION' => 'Descrição',
 
-	'subslistname' => 'Nome Segmentação',
-	'subslistno' => 'Número Segmentação',
-	'subslisttype' => 'Tipo de Segmentação',
-	'subsliststatus' => 'Estado Segmentação',
+	'subslistname' => 'Nome segmentação',
+	'subslistno' => 'Número segmentação',
+	'subslisttype' => 'Tipo de segmentação',
+	'subsliststatus' => 'Estado segmentação',
 	'Description' => 'Descrição',
-	'LBL_LOAD_LIST' => 'Carregar Lista',
+	'LBL_LOAD_LIST' => 'Carregar lista',
 	'AutoSync' => 'Autosincronizar',
-	'Select One' => 'Selecionar Uma',
-	'Synchronize with Filters' => 'Sincronizar com Filtros',
-	'SelectSubsList' => 'Selecionar Lista de Segmentação',
-	'SelectCampaign' => 'Selecionar Campanha',
-	'Add Relation' => 'Adicionar Relação',
-	'Delete Relation' => 'Apagar Relação',
-	'Delete All Relation' => 'Apagar de todas as Relações',
+	'Select One' => 'Selecionar uma',
+	'Synchronize with Filters' => 'Sincronizar com filtros',
+	'SelectSubsList' => 'Selecionar lista de segmentação',
+	'SelectCampaign' => 'Selecionar campanha',
+	'Add Relation' => 'Adicionar relação',
+	'Delete Relation' => 'Apagar relação',
+	'Delete All Relation' => 'Apagar de todas as relações',
 	'syncSubsList' => 'Synchronize Segmentation List Filters',
 	'Recommended frequency for syncing is 12 hours' => 'Recommended frequency for syncing is 12 hours',
 );
