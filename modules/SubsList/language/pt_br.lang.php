@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *  Contributor: Ranieri Slemer - Brazil - 26/09/2019 - Translate new terms
+ *  Contributor: Ranieri Slemer - Brazil - 10/03/2020 - Translate new terms
  ************************************************************************************/
 
 $mod_strings = array(
@@ -15,7 +15,7 @@ $mod_strings = array(
 	'SINGLE_SubsList' => 'Lista de segmentação',
 	'SubsList ID' => 'ID Lista de segmentação',
 
-	'LBL_CUSTOM_INFORMATION' => 'Informação personalizada',
+	'LBL_CUSTOM_INFORMATION' => 'Informação customizada',
 	'LBL_SubsList_INFORMATION' => 'Informação lista de segmentação',
 	'Description Information' => 'Descrição',
 	'LBL_ADDINFO_INFORMATION' => 'Informação adicional',
@@ -35,7 +35,7 @@ $mod_strings = array(
 	'Add Relation' => 'Adicionar relação',
 	'Delete Relation' => 'Apagar relação',
 	'Delete All Relation' => 'Apagar de todas as relações',
-	'syncSubsList' => 'Synchronize Segmentation List Filters',
-	'Recommended frequency for syncing is 12 hours' => 'Recommended frequency for syncing is 12 hours',
+	'syncSubsList' => 'Sincronizar filtros da lista de segmentação',
+	'Recommended frequency for syncing is 12 hours' => 'A frequência recomendada para sincronização é de 12 horas',
 );
 ?>
