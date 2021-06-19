@@ -11,9 +11,6 @@ require_once 'data/CRMEntity.php';
 require_once 'data/Tracker.php';
 
 class SubsList extends CRMEntity {
-	public $db;
-	public $log;
-
 	public $table_name = 'vtiger_subslist';
 	public $table_index= 'subslistid';
 	public $column_fields = array();
@@ -120,7 +117,7 @@ class SubsList extends CRMEntity {
 	 */
 	public function vtlib_handler($modulename, $event_type) {
 		if ($event_type == 'module.postinstall') {
-			// TODO Handle post installation actions
+			// Handle post installation actions
 			$this->setModuleSeqNumber('configure', $modulename, 'SEGL-', '0000001');
 			$module = Vtiger_Module::getInstance($modulename);
 			$modContacts = Vtiger_Module::getInstance('Contacts');
@@ -130,42 +127,18 @@ class SubsList extends CRMEntity {
 			$modLeads = Vtiger_Module::getInstance('Leads');
 			$modLeads->setRelatedList($module, $modulename, array('SELECT'));
 		} elseif ($event_type == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+			// Handle actions when this module is disabled.
 		} elseif ($event_type == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+			// Handle actions when this module is enabled.
 		} elseif ($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+			// Handle actions when this module is about to be deleted.
 		} elseif ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+			// Handle actions before this module is updated.
 		} elseif ($event_type == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+			// Handle actions after this module is updated.
 		}
 	}
 
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// public function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//public function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	/**
-	 * Default (generic) function to handle the related list for the module.
-	 * NOTE: Vtiger_Module::setRelatedList sets reference to this function in vtiger_relatedlists table
-	 * if function name is not explicitly specified.
-	 */
 	/* overriden version of get_related_list function */
 	public function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false) {
 		global $currentModule, $singlepane_view, $adb;
@@ -202,10 +175,9 @@ class SubsList extends CRMEntity {
 		$disabled = $autoSync ? 'disabled' : '';
 		$disabledcss = $autoSync ? 'background:#ccc;' : '';
 		$lhtml = "<input type='checkbox' id='autosync-{$related_module}' onclick='setupAutoSync(\"{$related_module}\");' $checked>"
-		.getTranslatedString('AutoSync').'&nbsp;&nbsp;';
+			.getTranslatedString('AutoSync').'&nbsp;&nbsp;';
 		$lhtml .= "<select id='".$related_module."_cv_list' class='small' $disabled><option value='None'>-- ".getTranslatedString('Select One')." --</option>";
 		$oCustomView = new CustomView($related_module);
-		//$viewid = $oCustomView->getViewId($related_module);
 		$customviewcombo_html = $oCustomView->getCustomViewCombo($filter, true);
 		$lhtml .= $customviewcombo_html;
 		$lhtml .= '</select>&nbsp;&nbsp';
@@ -231,18 +203,6 @@ class SubsList extends CRMEntity {
 						getTranslatedString($related_module, $related_module) . "' style='$disabledcss' $disabled>&nbsp;";
 				}
 			}
-// 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-// 				if ($wfs == '') {
-// 					$wfs = new VTWorkflowManager($adb);
-// 					$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
-// 				}
-// 				if (!$racbr || $racbr->hasRelatedListPermissionTo('create',$related_module)) {
-// 					$button .= "<input type='hidden' name='createmode' value='link' />" .
-// 						"<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString('SINGLE_'.$related_module) . "' class='crmbutton small create'" .
-// 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-// 						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString('SINGLE_'.$related_module, $related_module) . "'>&nbsp;";
-// 				}
-// 			}
 		}
 
 		// To make the edit or del link actions to return back to same view.
@@ -253,9 +213,7 @@ class SubsList extends CRMEntity {
 		}
 
 		$query = 'SELECT vtiger_crmentity.* ';
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
+		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN vtiger_users.ename ELSE vtiger_groups.groupname END AS user_name";
 
 		$more_relation = '';
 		// Select Custom Field Table Columns if present
@@ -296,12 +254,5 @@ class SubsList extends CRMEntity {
 
 		return $return_value;
 	}
-
-	/**
-	 * Handle getting dependents list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//public function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }
 ?>
