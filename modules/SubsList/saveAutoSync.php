@@ -22,7 +22,11 @@ $id = vtlib_purify($_REQUEST['record']);
 $autoSync = vtlib_purify($_REQUEST['autosync']);
 $filter = vtlib_purify($_REQUEST['filter']);
 
-$prefix = strtolower($relModule);
-
-$query = "update vtiger_subslist set {$prefix}_autosync={$autoSync}, {$prefix}_filter={$filter} where subslistid={$id}";
-$adb->query($query);
+$result = $adb->pquery('select 1 from vtiger_ws_entity where name=?', array($relModule)); // security check
+if ($result && $adb->num_rows($result)==1) {
+	$prefix = strtolower($relModule);
+	$adb->pquery(
+		"update vtiger_subslist set {$prefix}_autosync=?, {$prefix}_filter=? where subslistid=?",
+		array($autoSync, $filter, $id)
+	);
+}
