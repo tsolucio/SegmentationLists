@@ -112,8 +112,8 @@ class SubsList extends CRMEntity {
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string Module name
+	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function vtlib_handler($modulename, $event_type) {
 		if ($event_type == 'module.postinstall') {
@@ -176,7 +176,7 @@ class SubsList extends CRMEntity {
 		$disabledcss = $autoSync ? 'background:#ccc;' : '';
 		$lhtml = "<input type='checkbox' id='autosync-{$related_module}' onclick='setupAutoSync(\"{$related_module}\");' $checked>"
 			.getTranslatedString('AutoSync').'&nbsp;&nbsp;';
-		$lhtml .= "<select id='".$related_module."_cv_list' class='small' $disabled><option value='None'>-- ".getTranslatedString('Select One')." --</option>";
+		$lhtml .= "<select id='".$related_module."_cv_list' class='small' $disabled><option value='None'>-- ".getTranslatedString('Select One').' --</option>';
 		$oCustomView = new CustomView($related_module);
 		$customviewcombo_html = $oCustomView->getCustomViewCombo($filter, true);
 		$lhtml .= $customviewcombo_html;
@@ -199,7 +199,7 @@ class SubsList extends CRMEntity {
 					$button .= "<input title='" . getTranslatedString('LBL_SELECT') . ' ' . getTranslatedString($related_module, $related_module).
 						"' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule".
 						"&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test',".
-						"'width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . ' '.
+						"cbPopupWindowSettings);\" value='" . getTranslatedString('LBL_SELECT') . ' '.
 						getTranslatedString($related_module, $related_module) . "' style='$disabledcss' $disabled>&nbsp;";
 				}
 			}
