@@ -213,14 +213,16 @@ class SubsList extends CRMEntity {
 		}
 
 		$query = 'SELECT vtiger_crmentity.* ';
-		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN vtiger_users.ename ELSE vtiger_groups.groupname END AS user_name";
+
+		$q_elsegroupname = $related_module != 'Users' ? 'ELSE vtiger_groups.groupname ' : '';
+		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN vtiger_users.ename {$q_elsegroupname}END AS user_name";
 
 		$more_relation = '';
 		// Select Custom Field Table Columns if present
-		if (isset($other->customFieldTable)) {
+		if (isset($other->customFieldTable) && empty($other->related_tables[$other->customFieldTable[0]])) {
 			$query .= ', '.$other->customFieldTable[0].'.*';
-			$more_relation .= " INNER JOIN ".$other->customFieldTable[0]." ON ".$other->customFieldTable[0].'.'.$other->customFieldTable[1]
-				." = $other->table_name.$other->table_index";
+			$more_relation .= ' INNER JOIN '.$other->customFieldTable[0].' ON '.$other->customFieldTable[0].'.'.$other->customFieldTable[1] .
+				" = $other->table_name.$other->table_index";
 		}
 		if (!empty($other->related_tables)) {
 			foreach ($other->related_tables as $tname => $relmap) {
@@ -238,12 +240,17 @@ class SubsList extends CRMEntity {
 		}
 		$query .= ', '.$other->table_name.'.*';
 		$query .= " FROM $other->table_name";
-		$query .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index";
+		$query .= ' INNER JOIN '.$other->crmentityTableAlias." ON vtiger_crmentity.crmid = $other->table_name.$other->table_index";
 		$query .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)';
 		$query .= $more_relation;
-		$query .= ' LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$query .= ' LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
+		if ($related_module != 'Users') {
+			$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = '.$other->crmentityTable.'.smownerid';
+			$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = '.$other->crmentityTable.'.smownerid';
+			$del_table = $other->crmentityTable;
+		} else {
+			$del_table = 'vtiger_users';
+		}
+		$query .= " WHERE {$del_table}.deleted = 0 AND (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
 
 		$return_value = GetRelatedList($currentModule, $related_module, $other, $query, $button, $returnset);
 
