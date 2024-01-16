@@ -16,8 +16,8 @@ $mod_strings = array(
 
 	'LBL_CUSTOM_INFORMATION' => 'Información Personalizada',
 	'LBL_SubsList_INFORMATION' => 'Información de la Lista de Segmentación',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Information',
-	'LBL_ADDINFO_INFORMATION' => 'Additional Information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
+	'LBL_ADDINFO_INFORMATION' => 'Información Adicional',
 
 	'subslistname' => 'Nombre Segmento',
 	'subslistno' => 'Nº Segmento',
